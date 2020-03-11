@@ -1,0 +1,38 @@
+#!/bin/bash
+
+## Get the OS version
+OS=`/usr/bin/sw_vers -productVersion | awk -F. {'print $2'}`
+
+userName=$4
+userPass=$5
+
+try=$((try+1))
+if [[ $OS -ge 9 ]] &&  [[ $OS -lt 13 ]]; then
+## This "expect" block will populate answers for the fdesetup prompts that normally occur while hiding them from output
+result=$(expect -c "
+log_user 0
+spawn fdesetup changerecovery -personal
+expect \"Enter a password for '/', or the recovery key:\"
+send {${userPass}}   
+send \r
+log_user 1
+expect eof
+" >> /dev/null)
+elif [[ $OS -ge 13 ]]; then
+result=$(expect -c "
+log_user 0
+spawn fdesetup changerecovery -personal
+expect \"Enter the user name:\"
+send {${userName}}  
+send \r
+expect \"Enter a password for '/', or the recovery key:\"
+send {${userPass}}  
+send \r
+log_user 1
+expect eof
+")
+else
+echo "OS version not 10.9+ or OS version unrecognized"
+echo "$(/usr/bin/sw_vers -productVersion)"
+exit 5
+fi
