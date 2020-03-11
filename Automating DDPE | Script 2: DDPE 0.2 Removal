@@ -1,0 +1,73 @@
+#!/usr/bin/osascript
+
+############################################################
+#Utilize DDPE uninstallEMS scripts
+############################################################
+try
+	do shell script "/Library/Dell/EMS/Uninstall\\ EMS.app/Contents/Resources/uninstallEMS.sh" with administrator privileges
+end try
+
+try
+	do shell script "/Library/Dell/EMS/Uninstall\\ Dell\\ Encryption\\ External\\ Media.app/Contents/Resources/uninstallEMS.sh" with administrator privileges
+end try
+
+try
+	do shell script "/Library/Extensions/DellDataProtection.kext/Contents/Resources/Scripts/uninstallEMS.sh" with administrator privileges
+end try
+
+############################################################
+#Remove Leftover Daemons, Agents & Misc Plists
+############################################################
+try
+	do shell script "sudo rm -rf /Library/LaunchDaemons/com.dell.ddp.agent.plist" with administrator privileges
+end try
+
+try
+	do shell script "sudo rm -rf /Library/LaunchDaemons/com.dell.ems.daemon.plist" with administrator privileges
+end try
+
+try
+	do shell script "sudo rm -rf /Library/LaunchDaemons/com.dell.ems.mounter.plist" with administrator privileges
+end try
+
+try
+	do shell script "sudo rm -rf /Library/LaunchAgents/com.dell.ems.plist " with administrator privileges
+end try
+
+try
+	do shell script "sudo rm -rf /Library/LaunchAgents/com.dell.ems.fslauncher.plist" with administrator privileges
+end try
+
+try
+	do shell script "sudo rm -rf /Library/LaunchAgents/com.dell.ems.plist" with administrator privileges
+end try
+
+try
+	do shell script "sudo rm -rf /Library/LaunchAgents/com.dell.ddp.loginagent.plist" with administrator privileges
+end try
+
+try
+	do shell script "sudo rm -rf /Library/Preferences/com.dell.ddp.plist" with administrator privileges
+end try
+
+############################################################
+#Remove Preference Panes
+############################################################
+try
+	do shell script "sudo rm -rf /Library/PreferencePanes/Dell\\ Data\\ Protection.prefPane" with administrator privileges
+end try
+
+try
+	do shell script "sudo rm -rf /Library/PreferencePanes/Dell\\ Encryption\\ Enterprise.prefPane" with administrator privileges
+end try
+
+############################################################
+#Uninstall Fuse
+############################################################
+try
+	do shell script "/Library/Filesystems/osxfuse.fs/Contents/Resources/uninstall_osxfuse.app/Contents/Resources/Scripts/uninstall_osxfuse.sh"
+end try
+
+try
+	do shell script "rm -rf /Library/PreferencePanes/OSXFUSE.prefPane"
+end try
